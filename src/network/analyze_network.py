@@ -11,6 +11,7 @@ def single_source_shortest_path(graph, node):
     """
     Finds the shortest paths from a single source to the rest of the nodes in the graph.
     """
+    nodes = []
     paths = {}
     for v in graph:
         paths[v] = []
@@ -21,6 +22,7 @@ def single_source_shortest_path(graph, node):
     remaining_nodes = [node]
     while remaining_nodes:   # use BFS to find shortest paths
         v = remaining_nodes.pop(0)
+        nodes.append(v)
         distance_v = distances_dict[v]
         sigma_v = sigma[v]
         for edge in graph[v]:
@@ -30,7 +32,7 @@ def single_source_shortest_path(graph, node):
             if distances_dict[edge] == distance_v + 1:   # this is a shortest path, count paths
                 sigma[edge] += sigma_v
                 paths[edge].append(v)  # predecessors
-    return paths, sigma
+    return nodes, paths, sigma
 
 
 def accumulate(betweenness, nodes_list, paths, sigma, current_node):
@@ -78,9 +80,9 @@ def betweenness_centrality(graph):
     nodes_set = set(graph.nodes)
     for s in nodes:
         # single source shortest paths with BFS
-        paths, sigma = single_source_shortest_path(graph, s)
+        nodes_list, paths, sigma = single_source_shortest_path(graph, s)
         # accumulation
-        betweenness = accumulate(betweenness, nodes_set, paths, sigma, s)
+        betweenness = accumulate(betweenness, nodes_list, paths, sigma, s)
     # rescaling
     betweenness = rescale(betweenness, len(graph))
     return betweenness

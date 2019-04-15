@@ -27,7 +27,7 @@ After cloning the repository, we run the `make_dataset.py` script from the `/src
 generate the text file with the list of edges at `/data/processed/edges-list.txt`.
 
 ```bash
-python src/data/make_dataset.py data/raw/smarthome-userstories-1k.csv /data/processed/smarthome-userstories.csv
+python src/data/make_dataset.py data/external/che data/processed/edges-list.txt
 ```
 
 ## Step 2: Constructing the Network
